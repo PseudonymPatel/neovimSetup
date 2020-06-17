@@ -6,7 +6,7 @@ if empty(glob('~/.vim/autoload/plug.vim'))
 endif
 
 " plugs
-call plug#begin()
+call plug#begin('~/.config/nvim')
 Plug 'joshdick/onedark.vim'
 Plug 'pseudonymPatel/tomorrow-theme', {'rtp': 'vim/'}
 Plug 'itchyny/lightline.vim'
