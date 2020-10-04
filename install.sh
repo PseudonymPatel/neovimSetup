@@ -22,4 +22,5 @@ nvim -c ":qa"
 #need to install flake, ncm2, that good stuff
 
 #install the python thing
-pip install neovim
+sudo apt-get install python3-pip
+pip3 install neovim
