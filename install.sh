@@ -19,9 +19,10 @@ fi
 mkdir -p ~/.config/nvim/
 cp ./init.vim ~/.config/nvim/init.vim
 
-#install the python thing
+#install the python thing, and jedi so job isn't dead (ncm2 errors)
 sudo apt-get install python3-pip
 pip3 install neovim
+pip install jedi
 
 # do the plug thing
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
