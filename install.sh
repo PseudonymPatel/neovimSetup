@@ -17,10 +17,13 @@ fi
 mkdir -p ~/.config/nvim/
 cp ./init.vim ~/.config/nvim/init.vim
 
-#open and close neovim to install vim-plug and extensions.
-nvim -c ":qa"
-#need to install flake, ncm2, that good stuff
-
 #install the python thing
 sudo apt-get install python3-pip
 pip3 install neovim
+
+#open and close neovim to install vim-plug and extensions.
+nvim -c ":qa"
+
+echo "-----------------------------"
+echo "-----------------------------"
+echo "need to install flake, ncm2, that good stuff"
