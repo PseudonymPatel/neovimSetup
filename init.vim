@@ -109,6 +109,12 @@ set number
 " set no line wrapping
 set nowrap
 
+" set mouse to be able to be used
+set mouse=a
+
+" set assembly to use nasm formatting
+au BufRead,BufNewFile *.asm  set ft=nasm
+
 " lightline stuff
 set laststatus=2
 set noshowmode
