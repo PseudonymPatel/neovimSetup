@@ -30,6 +30,9 @@ sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.
 #open and close neovim to install vim-plug and extensions.
 nvim -c ":qa"
 
+#open and this time run pluginstall
+nvim -c ":PlugInstall"
+
 echo "-----------------------------"
 echo "-----------------------------"
-echo "need to install flake, ncm2, that good stuff"
+echo "need to install flake, ncm2, that good stuff?"
