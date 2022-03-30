@@ -1,4 +1,4 @@
-" self installation of plug
+" self installation of plug TODO: don't do this on windows!
 if empty(glob('~/.config/nvim/autoload/plug.vim'))
   silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
@@ -7,14 +7,16 @@ endif
 
 " plugs
 call plug#begin('~/.config/nvim')
-Plug 'joshdick/onedark.vim'
-Plug 'pseudonymPatel/tomorrow-theme', {'rtp': 'vim/'}
+
+Plug 'pineapplegiant/spaceduck', { 'branch': 'main' }
+
 Plug 'itchyny/lightline.vim'
 Plug 'Raimondi/delimitMate'
 Plug 'keith/swift.vim'
 Plug 'pangloss/vim-javascript'
 Plug 'justinmk/vim-sneak'
 Plug 'junegunn/goyo.vim'
+Plug 'sheerun/vim-polyglot'
 
 Plug 'dense-analysis/ale'
 Plug 'maximbaz/lightline-ale'
@@ -29,22 +31,32 @@ call plug#end()
 " Dont log viminfo
 set viminfo=
 
-" more colorsheme stuff
-"onedark.vim override: Set a custom background color in the terminal
-if (has("autocmd") && !has("gui_running"))
-  augroup colors
-    autocmd!
-    let s:background = { "gui": "#00121212", "cterm": "236", "cterm16": "0" }
-    autocmd ColorScheme * call onedark#set_highlight("Normal", { "bg": s:background }) "No `fg` setting
-  augroup END
+" neovide gui things
+set guifont=Cascadia\ Code:h16
+let g:neovide_remember_window_size = v:true
+
+" setup colorscheme
+if exists('+termguicolors')
+    let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+    let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+    set termguicolors
 endif
+
+colorscheme spaceduck
+highlight Comment guifg=#686f9a ctermfg=60 gui=italic cterm=italic
+highlight Todo guibg=#0f111b ctermbg=233 gui=bold,italic cterm=bold,italic
+highlight Conditional gui=italic cterm=italic
+highlight Repeat gui=italic cterm=italic
+highlight Statement gui=bold,italic cterm=bold,italic
+highlight Operator gui=bold cterm=bold
+highlight pythonOperator gui=bold cterm=bold
 
 " lightline stuff
 " maybe fix reee
 if !has('gui_running')
   set t_Co=256
 endif
-let g:lightline = { 'colorscheme': 'onedark'}
+let g:lightline = { 'colorscheme': 'spaceduck'}
 
 " lightline-ale things
 let g:lightline.component_expand = {
@@ -65,37 +77,7 @@ let g:lightline.active = { 'right': [['lineinfo', 'percent'],
 						\			[ 'linter_checking', 'linter_errors', 'linter_warnings', 'linter_ok' ],
 						\			[ 'fileformat', 'fileencoding', 'filetype' ]] }
 
-" Do cool color switch thing:
-function! UpdateColors()
-    " Detect using an env variable
-    let cmd = 'echo $IS_DARKMODE'
-    " On macOS we can do something a bit more fancy
-    "if IsMac()
-    let cmd = 'defaults read -g AppleInterfaceStyle'
-    "endif
-    let dark_mode = substitute(system(cmd), '\n', '', 'g')
-    " Set colorscheme and background based on mode
-    if dark_mode ==# 'Dark'
-		colorscheme onedark
-        " set background=dark
-        " call s:maybe_set_color(s:env_color_dark)
-	else
-        colorscheme Tomorrow
-		" set background=light
-        " call s:maybe_set_color(s:env_color_light)
-    endif
-endfunction
-command! UpdateColors call UpdateColors()
-" autocmd VimEnter * UpdateColors
-
-" set truecolor for onedark
- if (empty($TMUX))
- 	if (has("termguicolors"))
- 		set termguicolors
-	endif
- endif
-
-" set onedark theme
+" set some stuff?
 syntax on
 syntax enable
 
@@ -103,7 +85,7 @@ syntax enable
 set shiftwidth=4
 set tabstop=4
 
-" relative line numbers
+" regular line numbers
 set number
 
 " set no line wrapping
@@ -119,8 +101,6 @@ au BufRead,BufNewFile *.asm  set ft=nasm
 set laststatus=2
 set noshowmode
 set showcmd
-
-colorscheme onedark
 
 " make backspace act normally
 set backspace=indent,eol,start
@@ -170,7 +150,7 @@ endfunction
 autocmd BufWritePre * silent call StripTrailingWhitespace()
 
 " disable highlighting in vim-sneak, and use s for operators
-highlight link Sneak Normal
+" highlight link Sneak Normal
 omap s <Plug>Sneak_s
 omap S <Plug>Sneak_S
 
@@ -191,12 +171,14 @@ inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 set shortmess+=c
 
 " ALE settings
+let g:ale_sign_column_always = 1
 let g:ale_sign_error = 'E'
 let g:ale_sign_warning = 'W'
 let g:ale_linters = {'python': ['flake8']}
 let g:ale_lint_on_text_changed = 'always'
-let g:ale_lint_delay = 500
-
+let g:ale_lint_delay = 200
+" ALE flake8 settings
+let g:ale_python_flake8_options = '--ignore=E501,E261,E262'
 
 " settings for Goyo
 let g:goyo_width = 90
@@ -207,4 +189,3 @@ noremap <F4> :Goyo 100%x100%<CR>
 " Disable automatic comment insertion
 autocmd FileType * silent
 setlocal formatoptions-=c formatoptions-=r formatoptions-=o
-
