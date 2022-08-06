@@ -18,6 +18,8 @@ Plug 'justinmk/vim-sneak'
 Plug 'junegunn/goyo.vim'
 Plug 'sheerun/vim-polyglot'
 
+Plug 'voldikss/vim-floaterm'
+
 Plug 'dense-analysis/ale'
 Plug 'maximbaz/lightline-ale'
 Plug 'ncm2/ncm2'
@@ -32,7 +34,7 @@ call plug#end()
 set viminfo=
 
 " neovide gui things
-set guifont=Cascadia\ Code:h16
+set guifont=Cascadia\ Code:h14
 let g:neovide_remember_window_size = v:true
 
 " setup colorscheme
@@ -52,7 +54,6 @@ highlight Operator gui=bold cterm=bold
 highlight pythonOperator gui=bold cterm=bold
 
 " lightline stuff
-" maybe fix reee
 if !has('gui_running')
   set t_Co=256
 endif
@@ -118,6 +119,7 @@ nmap <silent> <Esc> :noh<CR>
 if has("nvim")
 	" use <Esc> to exit terminal-mode
 	tnoremap <Esc> <C-\><C-n>
+	tnoremap <C-v><Esc> <Esc>
    	" don't show linenumbers in :terminal mode
    	autocmd TermOpen * setlocal nonumber norelativenumber
 endif
@@ -185,6 +187,14 @@ let g:goyo_width = 90
 let g:goyo_height = 90
 " remap <F4> to Goyo with good sizing
 noremap <F4> :Goyo 100%x100%<CR>
+
+" Settings for Floaterm (floating terminal)
+" :ft to toggle a floaterm
+com Ft FloatermToggle
+com FN FloatermNew
+com FK FloatermKill
+com Fn FloatermNext
+com Fp FloatermPrev
 
 " Disable automatic comment insertion
 autocmd FileType * silent
